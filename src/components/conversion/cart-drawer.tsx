@@ -82,7 +82,7 @@ export function CartDrawer() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-0 h-full w-full max-w-md border-l border-gold/20 bg-panel shadow-2xl flex flex-col">
+          <div className="absolute right-0 top-0 h-full w-full max-w-xl border-l border-gold/20 bg-panel shadow-2xl flex flex-col">
             <div className="flex items-center justify-between border-b border-gold/20 px-6 py-4">
               <h2 className="font-body text-sm uppercase tracking-[0.12em] text-bone">
                 Cart ({totalItems})
