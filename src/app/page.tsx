@@ -2,27 +2,34 @@ import Link from "next/link";
 import { ShopWindow } from "@/components/home/shop-window";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
+import HeroCategory from "@/models/HeroCategory";
 import { ProductCard } from "@/components/shop/product-card";
 import { testimonials } from "@/lib/testimonials";
 import type { IProduct } from "@/models/Product";
+import type { IHeroCategory } from "@/models/HeroCategory";
 import { serialize } from "@/lib/utils";
 
-const windows = [
-  { id: 1, label: "Outerwear", sub: "Tailored coats, cut close", href: "/shop?category=Outerwear" },
-  { id: 2, label: "Evening", sub: "Pieces for low light", href: "/shop?category=Evening" },
-  { id: 3, label: "Accessories", sub: "Gold, leather, glass", href: "/shop?category=Accessories" },
-  { id: 4, label: "Archive", sub: "Limited, rarely repeated", href: "/shop?category=Archive" },
+const DEFAULT_WINDOWS = [
+  { key: "outerwear", label: "Outerwear", sub: "Tailored coats, cut close", href: "/shop?category=Outerwear", image: "" },
+  { key: "evening", label: "Evening", sub: "Pieces for low light", href: "/shop?category=Evening", image: "" },
+  { key: "accessories", label: "Accessories", sub: "Gold, leather, glass", href: "/shop?category=Accessories", image: "" },
+  { key: "archive", label: "Archive", sub: "Limited, rarely repeated", href: "/shop?category=Archive", image: "" },
 ];
 
 export default async function Home() {
   await connectDB();
   const featured: Array<IProduct & { _id: string }> = serialize(await Product.find({ featured: true }).limit(4).lean());
 
+  const dbWindows: Array<IHeroCategory & { _id: string }> = serialize(
+    await HeroCategory.find({}).sort({ sortOrder: 1 }).lean()
+  );
+  const windows = dbWindows.length > 0 ? dbWindows : DEFAULT_WINDOWS;
+
   return (
     <>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {windows.map((w, i) => (
-          <ShopWindow key={w.id} label={w.label} sub={w.sub} index={i} href={w.href} />
+          <ShopWindow key={w.key} label={w.label} sub={w.sub} index={i} href={w.href} image={w.image} />
         ))}
       </section>
 

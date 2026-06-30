@@ -6,6 +6,7 @@ import Order from "@/models/Order";
 import Product from "@/models/Product";
 import { RevenueChart } from "@/components/admin/revenue-chart";
 import { OrdersByStatusChart } from "@/components/admin/orders-by-status-chart";
+import { AdminHeroEditor } from "@/components/admin/hero-editor";
 
 export default async function AdminHomePage() {
   const session = await auth();
@@ -93,6 +94,10 @@ export default async function AdminHomePage() {
       <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <RevenueChart />
         <OrdersByStatusChart />
+      </div>
+
+      <div className="mt-8">
+        <AdminHeroEditor />
       </div>
 
       <form

@@ -86,14 +86,23 @@ export function ProductForm({ initial, mode }: Props) {
         throw new Error(data.error?.message || data.error || "Upload failed");
       }
     } catch {
-      const proxy = new FormData();
-      proxy.append("file", file);
-      const fallback = await fetch("/api/upload", { method: "POST", body: proxy });
-      const fallbackData = await fallback.json();
-      if (fallback.ok && fallbackData.url) {
-        set("images", [...form.images, fallbackData.url]);
-      } else {
-        setError(fallbackData.error || "Image upload failed. Check that your Cloudinary upload preset allows unsigned uploads.");
+      try {
+        const proxy = new FormData();
+        proxy.append("file", file);
+        const fallback = await fetch("/api/upload", { method: "POST", body: proxy });
+        if (fallback.ok) {
+          const fallbackData = await fallback.json();
+          if (fallbackData.url) {
+            set("images", [...form.images, fallbackData.url]);
+            return;
+          }
+        }
+        const msg = fallback.status === 500
+          ? "Server upload failed — Cloudinary keys may not be configured."
+          : await fallback.text().catch(() => "Upload failed");
+        setError(typeof msg === "string" ? msg : "Upload failed");
+      } catch {
+        setError("Image upload failed. Check your Cloudinary configuration.");
       }
     }
 
