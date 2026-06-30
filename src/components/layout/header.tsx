@@ -48,10 +48,10 @@ export async function Header() {
               </Link>
             )}
           </div>
-          <CartDrawer />
           <MobileNav userName={firstName} />
         </div>
       </div>
     </header>
+    <CartDrawer />
   );
 }
