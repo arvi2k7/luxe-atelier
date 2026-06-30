@@ -7,6 +7,7 @@ import Product from "@/models/Product";
 import { RevenueChart } from "@/components/admin/revenue-chart";
 import { OrdersByStatusChart } from "@/components/admin/orders-by-status-chart";
 import { AdminHeroEditor } from "@/components/admin/hero-editor";
+import { AdminTestimonialEditor } from "@/components/admin/testimonial-editor";
 
 export default async function AdminHomePage() {
   const session = await auth();
@@ -98,6 +99,10 @@ export default async function AdminHomePage() {
 
       <div className="mt-8">
         <AdminHeroEditor />
+      </div>
+
+      <div className="mt-8">
+        <AdminTestimonialEditor />
       </div>
 
       <form

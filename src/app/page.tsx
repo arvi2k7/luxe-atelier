@@ -4,9 +4,10 @@ import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 import HeroCategory from "@/models/HeroCategory";
 import { ProductCard } from "@/components/shop/product-card";
-import { testimonials } from "@/lib/testimonials";
+import Testimonial from "@/models/Testimonial";
 import type { IProduct } from "@/models/Product";
 import type { IHeroCategory } from "@/models/HeroCategory";
+import type { ITestimonial } from "@/models/Testimonial";
 import { serialize } from "@/lib/utils";
 
 const DEFAULT_WINDOWS = [
@@ -19,6 +20,11 @@ const DEFAULT_WINDOWS = [
 export default async function Home() {
   await connectDB();
   const featured: Array<IProduct & { _id: string }> = serialize(await Product.find({ featured: true }).limit(4).lean());
+
+  const dbTestimonials: Array<ITestimonial & { _id: string }> = serialize(
+    await Testimonial.find({}).sort({ sortOrder: 1 }).lean()
+  );
+  const testimonials = dbTestimonials.length > 0 ? dbTestimonials : await import("@/lib/testimonials").then((m) => m.testimonials);
 
   const dbWindows: Array<IHeroCategory & { _id: string }> = serialize(
     await HeroCategory.find({}).sort({ sortOrder: 1 }).lean()
