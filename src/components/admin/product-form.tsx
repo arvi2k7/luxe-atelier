@@ -70,10 +70,16 @@ export function ProductForm({ initial, mode }: Props) {
 
     const fd = new FormData();
     fd.append("file", file);
+    fd.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
+    fd.append("folder", "luxe-atelier");
 
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+      { method: "POST", body: fd }
+    );
     const data = await res.json();
-    if (data.url) set("images", [...form.images, data.url]);
+
+    if (data.secure_url) set("images", [...form.images, data.secure_url]);
     setUploading(false);
     if (fileRef.current) fileRef.current.value = "";
   }
