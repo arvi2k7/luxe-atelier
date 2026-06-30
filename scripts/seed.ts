@@ -1,5 +1,6 @@
 import connectDB from "../src/lib/mongodb";
 import Product from "../src/models/Product";
+import Coupon from "../src/models/Coupon";
 
 const products = [
   {
@@ -113,6 +114,10 @@ async function seed() {
   await Product.deleteMany({});
   await Product.insertMany(products);
   console.log(`Seeded ${products.length} products.`);
+
+  await Coupon.deleteMany({});
+  await Coupon.create({ code: "WELCOME10", discountPercent: 10, active: true });
+  console.log("Seeded WELCOME10 coupon.");
   process.exit(0);
 }
 
