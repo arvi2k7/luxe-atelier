@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const inputClass = "w-full border border-gold/30 bg-transparent px-3 py-2 text-sm text-bone placeholder:text-bone-muted/60 focus:border-gold focus:outline-none";
 
-export function ProfileEditor({ user }: { user: Record<string, any> }) {
+export function ProfileEditor({ user }: { user: { name?: string; email?: string; bio?: string } }) {
   const [name, setName] = useState(user.name || "");
   const [bio, setBio] = useState(user.bio || "");
   const [saving, setSaving] = useState(false);

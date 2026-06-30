@@ -81,7 +81,7 @@ export default async function ShopPage({
         <Filters />
         <div>
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {serializedProducts.map((p: any) => (
+            {serializedProducts.map((p) => (
               <ProductCard key={String(p._id)} product={p} />
             ))}
             {products.length === 0 && (

@@ -2,7 +2,8 @@ import { auth } from "@/auth";
 import { redirect, notFound } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
-import { ProductForm } from "@/components/admin/product-form";
+import type { IProduct } from "@/models/Product";
+import { ProductForm, type ProductFormData } from "@/components/admin/product-form";
 import Link from "next/link";
 
 export default async function EditProductPage({
@@ -15,15 +16,15 @@ export default async function EditProductPage({
 
   const { id } = await params;
   await connectDB();
-  const p: any = await Product.findById(id).lean();
+  const p = await Product.findById(id).lean() as IProduct & { _id: string } | null;
   if (!p) notFound();
 
-  const initial = {
+  const initial: ProductFormData = {
     _id: String(p._id),
     name: p.name,
     description: p.description,
     price: p.price,
-    compareAtPrice: p.compareAtPrice ?? "",
+    compareAtPrice: p.compareAtPrice ?? ("") as number | "",
     category: p.category,
     sizes: p.sizes ?? [],
     stock: p.stock,

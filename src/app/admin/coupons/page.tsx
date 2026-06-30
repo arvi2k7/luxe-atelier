@@ -25,7 +25,7 @@ export default async function AdminCouponsPage() {
       </div>
 
       <div className="mt-10 divide-y divide-gold/10">
-        {(coupons as any[]).map((c) => {
+        {coupons.map((c) => {
           const expired = c.expiresAt && new Date() > new Date(c.expiresAt);
           return (
             <div key={String(c._id)} className="flex items-center justify-between py-4 gap-4">

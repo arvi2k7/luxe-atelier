@@ -20,7 +20,8 @@ export function MobileNav({ userName }: Props) {
   const pathname = usePathname();
 
   useEffect(() => {
-    setOpen(false);
+    const t = setTimeout(() => setOpen(false), 0);
+    return () => clearTimeout(t);
   }, [pathname]);
 
   useEffect(() => {

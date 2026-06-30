@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
-    const update: Record<string, any> = {
+    const update: Record<string, unknown> = {
       items: items || [],
       lastActive: new Date(),
     };

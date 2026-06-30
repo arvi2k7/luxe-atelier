@@ -7,11 +7,11 @@ export async function GET() {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   await connectDB();
 
   let wishlist = await Wishlist.findOne({ userId }).populate("items.productId").lean();
-  if (!wishlist) wishlist = { items: [] } as any;
+  if (!wishlist) wishlist = { items: [] } as unknown as Record<string, unknown>;
 
   return NextResponse.json(wishlist);
 }
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   const { productId } = await request.json();
   if (!productId) {
     return NextResponse.json({ error: "Missing productId" }, { status: 400 });
@@ -41,7 +41,7 @@ export async function DELETE(request: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   const { productId } = await request.json();
 
   await connectDB();

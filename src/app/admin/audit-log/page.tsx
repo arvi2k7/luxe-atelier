@@ -27,7 +27,7 @@ export default async function AdminAuditLogPage() {
                 <td colSpan={4} className="pt-8 text-center text-sm text-bone-muted">No audit log entries yet.</td>
               </tr>
             ) : (
-              logs.map((log: any) => (
+              logs.map((log: { _id: unknown; action: string; target: string; targetId: string; userId: string; createdAt: string }) => (
                 <tr key={String(log._id)} className="border-b border-gold/10 text-bone-muted">
                   <td className="py-3 pr-4">
                     <span className="text-xs uppercase tracking-[0.1em]">{log.action}</span>

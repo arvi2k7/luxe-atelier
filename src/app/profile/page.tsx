@@ -30,11 +30,12 @@ export default async function ProfilePage() {
   let loyaltyData: { points: number; tier: { name: string; threshold: number; nextTier: { name: string; pointsNeeded: number } | null }; referralCode?: string } | null = null;
   if (loyalty) {
     const { calculateTier } = await import("@/lib/loyalty");
-    const points = (loyalty as any).points || 0;
+    const loyaltyDoc = loyalty as { points?: number; referralCode?: string };
+    const points = loyaltyDoc.points || 0;
     loyaltyData = {
       points,
       tier: calculateTier(points),
-      referralCode: (loyalty as any).referralCode,
+      referralCode: loyaltyDoc.referralCode,
     };
   }
 
@@ -80,16 +81,16 @@ export default async function ProfilePage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {(orders as any[]).map((order) => (
+            {orders.map((order) => (
               <div key={String(order._id)} className="border border-gold/20 bg-panel p-4 flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.1em] text-gold">{order.orderNumber}</p>
                   <p className="text-xs text-bone-muted mt-1">{new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-xs text-bone-muted">${(order as any).total.toFixed(2)}</span>
-                  <span className={`text-xs uppercase tracking-[0.1em] ${(order as any).status === "delivered" ? "text-green-400" : "text-gold-bright"}`}>
-                    {(order as any).status}
+                  <span className="text-xs text-bone-muted">${order.total.toFixed(2)}</span>
+                  <span className={`text-xs uppercase tracking-[0.1em] ${order.status === "delivered" ? "text-green-400" : "text-gold-bright"}`}>
+                    {order.status}
                   </span>
                 </div>
               </div>

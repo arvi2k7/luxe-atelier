@@ -47,7 +47,7 @@ export default function ShippingPage() {
               To initiate a return, write to{" "}
               <span className="text-bone">returns@luxeatelier.com</span> with your
               order number. We will respond within two working days with return
-              instructions. Return postage is at the customer's expense unless the
+              instructions. Return postage is at the customer&rsquo;s expense unless the
               item is faulty.
             </p>
             <p>

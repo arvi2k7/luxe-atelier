@@ -26,15 +26,10 @@ export function HeaderSearch() {
   }, []);
 
   useEffect(() => {
-    setSelectedIdx(-1);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchSuggestions(query), 300);
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, [query, fetchSuggestions]);
-
-  useEffect(() => {
-    if (!open) { setSuggestions([]); setSelectedIdx(-1); }
-  }, [open]);
 
   function handleOpen() {
     setOpen(true);

@@ -8,7 +8,7 @@ export const metadata = { title: "Reports — Admin" };
 export default async function AdminReportsPage() {
   await connectDB();
 
-  const [revenueResult, ordersByStatus, monthlyRevenue] = await Promise.all([
+  const [revenueResult, , monthlyRevenue] = await Promise.all([
     Order.aggregate([
       { $match: { status: { $ne: "cancelled" } } },
       { $group: { _id: null, total: { $sum: "$total" }, count: { $sum: 1 }, avg: { $avg: "$total" } } },
@@ -60,7 +60,7 @@ export default async function AdminReportsPage() {
       <div className="border border-gold/20 bg-panel p-6">
         <h2 className="font-body text-sm uppercase tracking-[0.12em] text-gold mb-4">Monthly Revenue</h2>
         <div className="space-y-3">
-          {monthlyRevenue.map((m: any) => (
+          {monthlyRevenue.map((m: { _id: string; total: number; count: number }) => (
             <div key={m._id} className="flex items-center justify-between text-sm">
               <span className="text-bone-muted">{m._id}</span>
               <div className="flex items-center gap-6">

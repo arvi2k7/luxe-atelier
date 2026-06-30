@@ -11,7 +11,7 @@ export async function PUT(req: NextRequest) {
   try {
     const { name, bio } = await req.json();
     await connectDB();
-    const update: Record<string, any> = {};
+    const update: Record<string, unknown> = {};
     if (name !== undefined) update.name = name;
     if (bio !== undefined) update.bio = bio;
     await User.findByIdAndUpdate(session.user.id, { $set: update });

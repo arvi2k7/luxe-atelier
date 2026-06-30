@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     await connectDB();
 
     const session = await auth();
-    const userId = session ? (session.user as any)?.id : undefined;
+    const userId = session?.user?.id;
 
     let discount: number | undefined;
     if (couponCode) {

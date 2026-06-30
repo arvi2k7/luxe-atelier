@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import type { IOrder } from "@/models/Order";
 import { ExportOrdersButton } from "@/components/admin/export-orders-button";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -59,7 +60,7 @@ export default async function AdminOrdersPage({
       </div>
 
       <div className="mt-8 divide-y divide-gold/10">
-        {(orders as any[]).map((o) => (
+        {orders.map((o: IOrder & { _id: string })  => (
           <div key={String(o._id)} className="flex items-center justify-between py-4 gap-4">
             <div className="min-w-0">
               <p className="font-body text-sm text-bone">{o.orderNumber}</p>

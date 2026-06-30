@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
+import type { IProduct } from "@/models/Product";
 import { DeleteProductButton } from "@/components/admin/delete-product-button";
 
 export default async function AdminProductsPage() {
@@ -27,7 +28,7 @@ export default async function AdminProductsPage() {
       </div>
 
       <div className="mt-10 divide-y divide-gold/10">
-        {products.map((p: any) => (
+        {products.map((p: IProduct & { _id: string }) => (
           <div key={String(p._id)} className="flex items-center justify-between py-4 gap-4">
             <div className="flex items-center gap-4 min-w-0">
               {p.images?.[0] ? (

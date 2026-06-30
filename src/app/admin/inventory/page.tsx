@@ -23,7 +23,7 @@ export default async function AdminInventoryPage() {
       </div>
 
       <div className="mt-10 divide-y divide-gold/10">
-        {(products as any[]).map((p) => {
+        {products.map((p) => {
           const isLow = p.stock > 0 && p.stock <= p.lowStockThreshold;
           const isOut = p.stock === 0;
           return (

@@ -2,6 +2,7 @@ import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { ProductCard } from "@/components/shop/product-card";
 import Link from "next/link";
+import type { IProduct } from "@/models/Product";
 import { serialize } from "@/lib/utils";
 
 type SearchParams = { q?: string };
@@ -21,7 +22,7 @@ export default async function SearchPage({
   const { q } = await searchParams;
   const query = q?.trim() ?? "";
 
-  let products: any[] = [];
+  let products: Array<IProduct & { _id: string }> = [];
 
   if (query) {
     await connectDB();
@@ -69,7 +70,7 @@ export default async function SearchPage({
 
       {products.length > 0 && (
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((p: any) => (
+          {products.map((p) => (
             <ProductCard key={String(p._id)} product={p} />
           ))}
         </div>

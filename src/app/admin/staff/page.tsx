@@ -1,5 +1,6 @@
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
+import type { IUser } from "@/models/User";
 
 export const metadata = { title: "Staff — Admin" };
 
@@ -26,7 +27,7 @@ export default async function AdminStaffPage() {
                 <td colSpan={4} className="pt-8 text-center text-sm text-bone-muted">No staff accounts yet.</td>
               </tr>
             ) : (
-              staff.map((u: any) => (
+              staff.map((u: IUser & { _id: string }) => (
                 <tr key={String(u._id)} className="border-b border-gold/10 text-bone-muted">
                   <td className="py-3 pr-4">{u.name || "—"}</td>
                   <td className="py-3 pr-4 text-xs">{u.email}</td>

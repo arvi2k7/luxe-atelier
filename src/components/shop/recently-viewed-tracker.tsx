@@ -5,6 +5,6 @@ import { useRecentlyViewedStore, type RecentlyViewedItem } from "@/store/recentl
 
 export function RecentlyViewedTracker({ product }: { product: RecentlyViewedItem }) {
   const addProduct = useRecentlyViewedStore((s) => s.addProduct);
-  useEffect(() => { addProduct(product); }, []);
+  useEffect(() => { addProduct(product); }, [addProduct, product]);
   return null;
 }

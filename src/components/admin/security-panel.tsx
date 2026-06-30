@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export function AdminSecurityPanel() {
   const [enabling2FA, setEnabling2FA] = useState(false);
@@ -49,7 +50,7 @@ export function AdminSecurityPanel() {
             <p className="text-sm text-bone-muted">Scan this QR code with your authenticator app:</p>
             {qrCode && (
               <div className="bg-white inline-block p-2 rounded">
-                <img src={qrCode} alt="2FA QR Code" className="h-40 w-40" />
+                <Image src={qrCode} alt="2FA QR Code" width={160} height={160} className="h-40 w-40" />
               </div>
             )}
             <div className="flex gap-2">

@@ -26,7 +26,7 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   await connectDB();
 
   const user = await User.findById(userId);

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-function withCartSid(req: any, resp: NextResponse): NextResponse {
+function withCartSid(req: { cookies: { has: (name: string) => boolean } }, resp: NextResponse): NextResponse {
   if (!req.cookies.has("cart_sid")) {
     resp.cookies.set("cart_sid", crypto.randomUUID(), {
       httpOnly: true,
@@ -15,7 +15,7 @@ function withCartSid(req: any, resp: NextResponse): NextResponse {
 
 export const proxy = auth((req) => {
   const isLoggedIn = !!req.auth;
-  const role = (req.auth as any)?.user?.role;
+  const role = (req.auth as { user?: { role?: string } } | undefined)?.user?.role;
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/admin")) {

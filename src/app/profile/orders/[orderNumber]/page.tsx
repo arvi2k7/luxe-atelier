@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import type { IOrderItem } from "@/models/Order";
 import Link from "next/link";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -20,11 +21,11 @@ export default async function CustomerOrderDetailPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   const { orderNumber } = await params;
 
   await connectDB();
-  const order: any = await Order.findOne({ orderNumber }).lean();
+  const order = await Order.findOne({ orderNumber }).lean();
 
   if (!order) notFound();
   if (String(order.userId) !== userId) notFound();
@@ -55,7 +56,7 @@ export default async function CustomerOrderDetailPage({
 
       <div className="mt-8 border border-gold/20 bg-panel p-6 space-y-3">
         <p className="text-xs uppercase tracking-[0.12em] text-gold mb-4">Items</p>
-        {order.items.map((item: any, i: number) => (
+        {order.items.map((item: IOrderItem & { _id?: string }, i: number) => (
           <div key={i} className="flex justify-between text-sm">
             <span className="text-bone">
               {item.name} ({item.size}) &times; {item.quantity}

@@ -43,7 +43,7 @@ export default async function AdminCustomersPage() {
       </div>
 
       <div className="mt-10 divide-y divide-gold/10">
-        {customers.map((c: any) => (
+        {customers.map((c: { _id: string; name: string; email: string; createdAt: string; orderCount: number; totalSpend: number }) => (
           <div key={String(c._id)} className="flex items-center justify-between py-4 gap-4">
             <div className="min-w-0 flex-1">
               <p className="font-display text-base text-bone truncate">{c.name}</p>

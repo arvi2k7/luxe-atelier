@@ -4,6 +4,7 @@ import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { ProductCard } from "@/components/shop/product-card";
 import { testimonials } from "@/lib/testimonials";
+import type { IProduct } from "@/models/Product";
 import { serialize } from "@/lib/utils";
 
 const windows = [
@@ -15,7 +16,7 @@ const windows = [
 
 export default async function Home() {
   await connectDB();
-  const featured = serialize(await Product.find({ featured: true }).limit(4).lean());
+  const featured: Array<IProduct & { _id: string }> = serialize(await Product.find({ featured: true }).limit(4).lean());
 
   return (
     <>
@@ -38,7 +39,7 @@ export default async function Home() {
 
         {featured.length > 0 ? (
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {(featured as any[]).map((p) => (
+            {featured.map((p) => (
               <ProductCard key={String(p._id)} product={p} />
             ))}
           </div>

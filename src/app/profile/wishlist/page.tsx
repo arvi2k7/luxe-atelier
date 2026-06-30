@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Wishlist from "@/models/Wishlist";
+import type { IProduct } from "@/models/Product";
 import Link from "next/link";
 import Image from "next/image";
 import { RemoveWishlistButton } from "./remove-button";
@@ -10,14 +11,14 @@ export default async function WishlistPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const userId = (session.user as any)?.id;
+  const userId = session.user?.id;
   await connectDB();
 
-  const wishlist: any = await Wishlist.findOne({ userId })
+  const wishlist = await Wishlist.findOne({ userId })
     .populate("items.productId")
     .lean();
 
-  const items = (wishlist?.items ?? []).filter((i: any) => i.productId);
+  const items = (wishlist?.items ?? []).filter((i: { productId: unknown }) => i.productId);
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16 md:px-10">
@@ -40,7 +41,7 @@ export default async function WishlistPage() {
         </div>
       ) : (
         <div className="mt-8 divide-y divide-gold/10">
-          {items.map(({ productId: p }: any) => (
+          {items.map(({ productId: p }: { productId: IProduct & { _id: string } }) => (
             <div key={String(p._id)} className="flex items-center gap-4 py-5">
               <div className="h-16 w-16 flex-shrink-0 overflow-hidden border border-gold/20 bg-panel">
                 {p.images?.[0] ? (

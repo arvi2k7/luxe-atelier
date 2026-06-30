@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useCartStore } from "@/store/cart-store";
 
 export function CartCount() {
   const items = useCartStore((s) => s.items);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  const count = mounted ? items.reduce((sum, i) => sum + i.quantity, 0) : 0;
+  const count = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
 
   return (
     <Link

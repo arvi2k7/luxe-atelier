@@ -6,15 +6,15 @@ import { SIZE_GUIDE } from "@/lib/size-guide";
 export function SizeGuideModal({ category }: { category: string }) {
   const [open, setOpen] = useState(false);
 
-  const guide = SIZE_GUIDE[category];
-  if (!guide) return null;
-
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [open]);
+
+  const guide = SIZE_GUIDE[category];
+  if (!guide) return null;
 
   return (
     <>

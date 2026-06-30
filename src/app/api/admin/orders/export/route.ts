@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import type { IOrder, IOrderItem } from "@/models/Order";
 
 function escapeCSV(val: unknown): string {
   const str = String(val ?? "");
@@ -33,9 +34,9 @@ export async function GET() {
     "Shipping Address",
   ];
 
-  const rows = (orders as any[]).map((o) => {
+  const rows = orders.map((o: IOrder & { _id: string }) => {
     const items = o.items
-      .map((i: any) => `${i.name} (${i.size}) x${i.quantity}`)
+      .map((i: IOrderItem) => `${i.name} (${i.size}) x${i.quantity}`)
       .join("; ");
     const addr = [
       o.shipping.fullName,

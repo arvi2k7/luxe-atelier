@@ -21,8 +21,6 @@ export interface ILoyaltyAccount {
   updatedAt: Date;
 }
 
-const TIER_THRESHOLDS: Record<string, number> = { bronze: 0, silver: 500, gold: 2000, platinum: 5000 };
-
 export function calculateTier(lifetimePoints: number): "bronze" | "silver" | "gold" | "platinum" {
   if (lifetimePoints >= 5000) return "platinum";
   if (lifetimePoints >= 2000) return "gold";

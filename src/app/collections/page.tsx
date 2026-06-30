@@ -3,6 +3,7 @@ import Product from "@/models/Product";
 import { ProductCard } from "@/components/shop/product-card";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import type { IProduct } from "@/models/Product";
 import { serialize } from "@/lib/utils";
 
 export const metadata = {
@@ -24,10 +25,11 @@ export default async function CollectionsPage() {
 
   const allProducts = serialize(await Product.find({}).lean());
 
+  const products = allProducts as Array<IProduct & { _id: string }>;
   const grouped = CATEGORIES.reduce((acc, cat) => {
-    acc[cat] = (allProducts as any[]).filter((p) => p.category === cat);
+    acc[cat] = products.filter((p) => p.category === cat);
     return acc;
-  }, {} as Record<string, any[]>);
+  }, {} as Record<string, Array<IProduct & { _id: string }>>);
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
@@ -67,7 +69,7 @@ export default async function CollectionsPage() {
                 </Link>
               </div>
               <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-                {products.slice(0, 4).map((p: any) => (
+                {products.slice(0, 4).map((p) => (
                   <ProductCard key={String(p._id)} product={p} />
                 ))}
               </div>

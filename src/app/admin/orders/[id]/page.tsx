@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect, notFound } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import type { IOrderItem } from "@/models/Order";
 import Link from "next/link";
 import { OrderStatusSelect } from "@/components/admin/order-status-select";
 
@@ -23,7 +24,7 @@ export default async function AdminOrderDetailPage({
 
   const { id } = await params;
   await connectDB();
-  const order: any = await Order.findById(id).lean();
+  const order = await Order.findById(id).lean();
   if (!order) notFound();
 
   return (
@@ -55,7 +56,7 @@ export default async function AdminOrderDetailPage({
 
       <div className="mt-8 border border-gold/20 bg-panel p-6 space-y-3">
         <p className="text-xs uppercase tracking-[0.12em] text-gold mb-4">Items</p>
-        {order.items.map((item: any, i: number) => (
+        {order.items.map((item: IOrderItem & { _id?: string }, i: number) => (
           <div key={i} className="flex justify-between text-sm">
             <span className="text-bone">
               {item.name} ({item.size}) &times; {item.quantity}

@@ -26,7 +26,7 @@ export function NewsletterForm() {
     setLoading(false);
   }
 
-  if (done) return <p className="text-sm text-green-400">You're on the list.</p>;
+  if (done) return <p className="text-sm text-green-400">You&rsquo;re on the list.</p>;
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2">

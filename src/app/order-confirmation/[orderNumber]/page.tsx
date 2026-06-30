@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
+import type { IOrderItem } from "@/models/Order";
 import Link from "next/link";
 
 export default async function OrderConfirmationPage({
@@ -10,7 +11,7 @@ export default async function OrderConfirmationPage({
 }) {
   const { orderNumber } = await params;
   await connectDB();
-  const order: any = await Order.findOne({ orderNumber }).lean();
+  const order = await Order.findOne({ orderNumber }).lean();
 
   if (!order) notFound();
 
@@ -33,7 +34,7 @@ export default async function OrderConfirmationPage({
       </h1>
       <p className="mt-4 text-sm text-bone-muted leading-relaxed max-w-md mx-auto">
         Order <span className="text-bone">{order.orderNumber}</span> has been placed.
-        We&apos;ll send a confirmation to <span className="text-bone">{order.email || order.shipping?.email || "your email"}</span>.
+        We&apos;ll send a confirmation to <span className="text-bone">{(order as Record<string, unknown>).email || order.shipping?.email || "your email"}</span>.
       </p>
 
       {pointsEarned && (
@@ -41,7 +42,7 @@ export default async function OrderConfirmationPage({
       )}
 
       <div className="mt-10 space-y-4 border border-gold/20 bg-panel p-6 text-left">
-        {order.items?.map((item: any, i: number) => (
+        {order.items?.map((item: IOrderItem, i: number) => (
           <div key={i} className="flex justify-between text-sm">
             <span className="text-bone">
               {item.name}{item.size ? ` (${item.size})` : ""} &times; {item.quantity}

@@ -30,7 +30,7 @@ export default async function ProfileOrdersPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order: any) => (
+          {orders.map((order) => (
             <ProfileOrderCard key={String(order._id)} order={JSON.parse(JSON.stringify(order))} />
           ))}
         </div>

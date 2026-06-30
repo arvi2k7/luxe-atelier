@@ -3,6 +3,7 @@ import Product from "@/models/Product";
 import Order from "@/models/Order";
 import { ProductCard } from "@/components/shop/product-card";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import type { IProduct } from "@/models/Product";
 import { serialize } from "@/lib/utils";
 
 export const metadata = { title: "Best Sellers", description: "Our most popular pieces." };
@@ -10,7 +11,7 @@ export const metadata = { title: "Best Sellers", description: "Our most popular 
 export default async function BestSellersPage() {
   await connectDB();
 
-  const bestSellers: any[] = serialize(await Order.aggregate([
+  const bestSellers: Array<IProduct & { totalSold: number }> = serialize(await Order.aggregate([
     { $match: { status: { $ne: "cancelled" } } },
     { $unwind: "$items" },
     { $group: { _id: "$items.productId", totalSold: { $sum: "$items.quantity" } } },
@@ -34,7 +35,7 @@ export default async function BestSellersPage() {
         <p className="mt-6 text-sm text-bone-muted">No sales data yet — showing featured pieces.</p>
       )}
       <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {(bestSellers.length > 0 ? bestSellers : fallback).map((p: any) => (
+        {(bestSellers.length > 0 ? bestSellers : fallback).map((p) => (
           <div key={String(p._id)} className="relative">
             {bestSellers.length > 0 && (
               <span className="absolute bottom-1 left-1 z-10 bg-vitrine/80 text-xs text-bone-muted px-2 py-0.5">

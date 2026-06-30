@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export function PreferencesForm({ user }: { user: Record<string, any> }) {
+export function PreferencesForm({ user }: { user: { emailPreferences?: { marketing?: boolean; orderUpdates?: boolean }; name?: string; email?: string } }) {
   const [marketing, setMarketing] = useState(user.emailPreferences?.marketing ?? true);
   const [orderUpdates, setOrderUpdates] = useState(user.emailPreferences?.orderUpdates ?? true);
   const [saving, setSaving] = useState(false);

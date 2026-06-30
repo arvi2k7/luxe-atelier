@@ -2,6 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { QuickAddButton } from "./quick-add-button";
 
+type QuickAddProduct = {
+  _id: string;
+  name: string;
+  price: number;
+  sizes: string[];
+  slug: string;
+  stock: number;
+};
+
 type ProductCardProduct = {
   _id: string;
   slug: string;
@@ -14,7 +23,7 @@ type ProductCardProduct = {
   images?: string[];
   exclusive?: boolean;
   featured?: boolean;
-  createdAt?: string;
+  createdAt?: string | Date;
 };
 
 export function ProductCard({ product }: { product: ProductCardProduct }) {
@@ -49,7 +58,7 @@ export function ProductCard({ product }: { product: ProductCardProduct }) {
         {!onSale && lowStock && (
           <span className="absolute right-3 top-3 text-xs tracking-wide text-gold-bright">Low stock</span>
         )}
-        <QuickAddButton product={product as any} />
+        <QuickAddButton product={product as unknown as QuickAddProduct} />
       </div>
       <div className="mt-3">
         <p className="font-display text-lg text-bone">{product.name}</p>

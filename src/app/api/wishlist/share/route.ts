@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Wishlist from "@/models/Wishlist";
+import type { IWishlist } from "@/models/Wishlist";
 import { auth } from "@/auth";
 import crypto from "crypto";
 
@@ -16,11 +17,12 @@ export async function POST() {
     return NextResponse.json({ error: "Wishlist not found" }, { status: 404 });
   }
 
-  if (!(wishlist as any).shareToken) {
+  const wishlistDoc = wishlist as unknown as IWishlist;
+  if (!wishlistDoc.shareToken) {
     const shareToken = crypto.randomBytes(16).toString("hex");
     await Wishlist.findByIdAndUpdate(wishlist._id, { $set: { shareToken } });
     return NextResponse.json({ shareToken });
   }
 
-  return NextResponse.json({ shareToken: (wishlist as any).shareToken });
+  return NextResponse.json({ shareToken: wishlistDoc.shareToken });
 }

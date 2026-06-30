@@ -25,7 +25,7 @@ export default async function InventoryAlertsPage() {
           <p className="text-sm text-bone-muted">No low-stock items.</p>
         ) : (
           <div className="space-y-2">
-            {(lowStock as any[]).map((p) => (
+            {lowStock.map((p) => (
               <div key={String(p._id)} className="border border-gold/20 bg-panel p-4 flex items-center justify-between">
                 <div>
                   <Link href={`/admin/products/${p._id}/edit`} className="text-sm text-bone hover:text-gold-bright transition-colors">{p.name}</Link>
@@ -53,7 +53,7 @@ export default async function InventoryAlertsPage() {
           <p className="text-sm text-bone-muted">No out-of-stock items.</p>
         ) : (
           <div className="space-y-2">
-            {(outOfStock as any[]).map((p) => (
+            {outOfStock.map((p) => (
               <div key={String(p._id)} className="border border-red-400/20 bg-panel p-4 flex items-center justify-between">
                 <div>
                   <Link href={`/admin/products/${p._id}/edit`} className="text-sm text-bone hover:text-gold-bright transition-colors">{p.name}</Link>

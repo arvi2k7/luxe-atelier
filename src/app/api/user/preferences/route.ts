@@ -12,7 +12,7 @@ export async function PUT(req: NextRequest) {
     const { email, marketing, orderUpdates } = await req.json();
     await connectDB();
 
-    const update: Record<string, any> = {};
+    const update: Record<string, unknown> = {};
     if (email !== undefined) update.email = email;
     if (marketing !== undefined) update["emailPreferences.marketing"] = marketing;
     if (orderUpdates !== undefined) update["emailPreferences.orderUpdates"] = orderUpdates;

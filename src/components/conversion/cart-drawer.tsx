@@ -6,16 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/cart-store";
 import { FreeShippingBar } from "./free-shipping-bar";
-import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 
 export function CartDrawer() {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
@@ -57,8 +51,6 @@ export function CartDrawer() {
     };
   }, [open]);
 
-  if (!mounted) return null;
-
   return (
     <>
       <button
@@ -77,7 +69,7 @@ export function CartDrawer() {
         )}
       </button>
 
-      {open && mounted && createPortal(
+      {open && typeof document !== "undefined" && createPortal(
         <div className="fixed inset-0 z-[90]">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"

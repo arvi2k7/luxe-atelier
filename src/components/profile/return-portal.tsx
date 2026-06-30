@@ -60,7 +60,7 @@ export function ReturnPortal({ orders, returns }: { orders: Order[]; returns: Re
     }
   }
 
-  function updateItem(index: number, field: string, value: any) {
+  function updateItem(index: number, field: string, value: string | number) {
     setReturnItems((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
     );
