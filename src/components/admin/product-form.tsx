@@ -67,19 +67,36 @@ export function ProductForm({ initial, mode }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    setError("");
 
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
-    fd.append("folder", "luxe-atelier");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
 
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-      { method: "POST", body: fd }
-    );
-    const data = await res.json();
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        { method: "POST", body: fd }
+      );
+      const data = await res.json();
 
-    if (data.secure_url) set("images", [...form.images, data.secure_url]);
+      if (data.secure_url) {
+        set("images", [...form.images, data.secure_url]);
+      } else {
+        throw new Error(data.error?.message || data.error || "Upload failed");
+      }
+    } catch {
+      const proxy = new FormData();
+      proxy.append("file", file);
+      const fallback = await fetch("/api/upload", { method: "POST", body: proxy });
+      const fallbackData = await fallback.json();
+      if (fallback.ok && fallbackData.url) {
+        set("images", [...form.images, fallbackData.url]);
+      } else {
+        setError(fallbackData.error || "Image upload failed. Check that your Cloudinary upload preset allows unsigned uploads.");
+      }
+    }
+
     setUploading(false);
     if (fileRef.current) fileRef.current.value = "";
   }
