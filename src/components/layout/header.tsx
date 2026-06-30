@@ -17,6 +17,7 @@ export async function Header() {
   const firstName = user?.name?.split(" ")[0];
 
   return (
+    <>
     <header className="sticky top-0 z-50 border-b border-gold/20 bg-vitrine/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5 md:px-10">
         <Link href="/"
@@ -52,6 +53,7 @@ export async function Header() {
         </div>
       </div>
     </header>
-    <CartDrawer />
+      <CartDrawer />
+    </>
   );
 }
