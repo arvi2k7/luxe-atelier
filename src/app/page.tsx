@@ -1,65 +1,74 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ShopWindow } from "@/components/home/shop-window";
+import connectDB from "@/lib/mongodb";
+import Product from "@/models/Product";
+import { ProductCard } from "@/components/shop/product-card";
+import { testimonials } from "@/lib/testimonials";
+import { serialize } from "@/lib/utils";
 
-export default function Home() {
+const windows = [
+  { id: 1, label: "Outerwear", sub: "Tailored coats, cut close", href: "/shop?category=Outerwear" },
+  { id: 2, label: "Evening", sub: "Pieces for low light", href: "/shop?category=Evening" },
+  { id: 3, label: "Accessories", sub: "Gold, leather, glass", href: "/shop?category=Accessories" },
+  { id: 4, label: "Archive", sub: "Limited, rarely repeated", href: "/shop?category=Archive" },
+];
+
+export default async function Home() {
+  await connectDB();
+  const featured = serialize(await Product.find({ featured: true }).limit(4).lean());
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {windows.map((w, i) => (
+          <ShopWindow key={w.id} label={w.label} sub={w.sub} index={i} href={w.href} />
+        ))}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-24 md:px-10">
+        <div className="flex items-end justify-between">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-bone">
+            New Arrivals
+          </h2>
+          <Link href="/shop"
+            className="text-xs tracking-[0.1em] text-bone-muted hover:text-gold-bright transition-colors">
+            View all
+          </Link>
+        </div>
+
+        {featured.length > 0 ? (
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {(featured as any[]).map((p) => (
+              <ProductCard key={String(p._id)} product={p} />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-6 text-sm text-bone-muted">
+            No featured products yet —{" "}
+            <Link href="/shop" className="text-gold-bright hover:underline">
+              browse the full catalogue
+            </Link>
+            .
           </p>
+        )}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+        <p className="text-xs uppercase tracking-[0.15em] text-gold">What our customers say</p>
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <div key={i} className="border border-gold/20 bg-panel p-6">
+              <div className="flex gap-0.5 mb-4">
+                {Array.from({ length: t.rating }).map((_, s) => (
+                  <span key={s} className="text-gold text-sm">★</span>
+                ))}
+              </div>
+              <p className="text-sm italic text-bone-muted leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+              <p className="mt-4 text-xs uppercase tracking-[0.12em] text-gold">{t.name} — {t.location}</p>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
