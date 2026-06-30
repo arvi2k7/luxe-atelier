@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/cart-store";
@@ -76,7 +77,7 @@ export function CartDrawer() {
         )}
       </button>
 
-      {open && (
+      {open && mounted && createPortal(
         <div className="fixed inset-0 z-[90]">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
@@ -191,7 +192,8 @@ export function CartDrawer() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
