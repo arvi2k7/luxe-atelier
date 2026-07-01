@@ -63,3 +63,8 @@ next-env.d.ts
 
 # misc
 *.log
+
+# impeccable / design artifacts
+.impeccable/
+DESIGN.md
+PRODUCT.md
