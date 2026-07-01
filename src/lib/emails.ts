@@ -163,3 +163,34 @@ export async function sendBackInStock({
     html,
   });
 }
+
+export async function sendPasswordResetEmail({
+  email,
+  resetToken,
+}: {
+  email: string;
+  resetToken: string;
+}) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
+  const html = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#0E1410;font-family:Georgia,serif;">
+  <div style="max-width:480px;margin:0 auto;padding:48px 24px;">
+    <p style="color:#B8A887;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 24px;">Luxe Atelier</p>
+    <h1 style="color:#ECE6D8;font-size:24px;font-weight:600;margin:0 0 8px;">Reset your password</h1>
+    <p style="color:#A39C8C;font-size:13px;margin:0 0 24px;">Click the link below to reset your password. This link expires in 1 hour.</p>
+    <a href="${resetUrl}" style="display:inline-block;border:1px solid #B8A887;padding:10px 20px;color:#D4C28F;font-size:12px;letter-spacing:0.1em;text-decoration:none;">Reset password &rarr;</a>
+    <p style="color:#A39C8C;font-size:12px;margin-top:32px;">If you did not request this, you can safely ignore this email.</p>
+  </div>
+</body>
+</html>`;
+
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Reset your Luxe Atelier password",
+    html,
+  });
+}

@@ -2,14 +2,16 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 import StockAlert from "@/models/StockAlert";
+import { stockAlertSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const { productId, email } = await request.json();
-
-    if (!productId || !email) {
-      return NextResponse.json({ error: "Product ID and email are required" }, { status: 400 });
+    const body = await request.json();
+    const parsed = stockAlertSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
     }
+    const { productId, email } = parsed.data;
 
     await connectDB();
 
@@ -33,9 +35,9 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ message: "We will notify you when this item is back in stock." });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { error: (err as Error).message },
+      { error: "Failed to process notification request" },
       { status: 500 }
     );
   }

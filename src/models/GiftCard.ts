@@ -49,5 +49,6 @@ const GiftCardSchema = new Schema<IGiftCard>(
 
 GiftCardSchema.index({ code: 1 }, { unique: true });
 GiftCardSchema.index({ purchasedByUserId: 1 });
+GiftCardSchema.index({ recipientEmail: 1 });
 
 export default models.GiftCard || model<IGiftCard>("GiftCard", GiftCardSchema);

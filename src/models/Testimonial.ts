@@ -19,4 +19,6 @@ const TestimonialSchema = new Schema<ITestimonial>(
   { timestamps: true }
 );
 
+TestimonialSchema.index({ sortOrder: 1 });
+
 export default models.Testimonial || model<ITestimonial>("Testimonial", TestimonialSchema);

@@ -45,9 +45,9 @@ export async function POST(request: Request) {
       },
       createdAt: order.createdAt,
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { error: (err as Error).message },
+      { error: "Failed to look up order" },
       { status: 500 }
     );
   }

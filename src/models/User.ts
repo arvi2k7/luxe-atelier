@@ -19,6 +19,8 @@ export interface IUser {
   totpSecret?: string;
   emailPreferences: IEmailPreferences;
   savedSizes?: Record<string, string>;
+  resetToken?: string;
+  resetTokenExpires?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,6 +48,8 @@ const UserSchema = new Schema<IUser>(
     totpSecret: { type: String },
     emailPreferences: { type: EmailPreferencesSchema, default: () => ({}) },
     savedSizes: { type: Schema.Types.Mixed },
+    resetToken: { type: String, index: true },
+    resetTokenExpires: { type: Date },
   },
   { timestamps: true }
 );

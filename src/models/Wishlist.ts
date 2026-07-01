@@ -32,4 +32,6 @@ const WishlistSchema = new Schema<IWishlist>(
   { timestamps: true }
 );
 
+WishlistSchema.index({ shareToken: 1 }, { sparse: true });
+
 export default models.Wishlist || model<IWishlist>("Wishlist", WishlistSchema);

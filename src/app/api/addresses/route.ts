@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import SavedAddress from "@/models/SavedAddress";
 import { auth } from "@/auth";
+import { addressSchema } from "@/lib/validations";
 
 export async function GET() {
   const session = await auth();
@@ -20,6 +21,10 @@ export async function POST(req: NextRequest) {
   }
   try {
     const body = await req.json();
+    const parsed = addressSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
+    }
     await connectDB();
 
     if (body.isDefault) {
@@ -28,16 +33,16 @@ export async function POST(req: NextRequest) {
 
     const address = await SavedAddress.create({
       userId: session.user.id,
-      label: body.label,
-      fullName: body.fullName,
-      addressLine1: body.addressLine1,
-      addressLine2: body.addressLine2,
-      city: body.city,
-      state: body.state,
-      postalCode: body.postalCode,
-      country: body.country,
-      phone: body.phone,
-      isDefault: body.isDefault || false,
+      label: parsed.data.label ?? "",
+      fullName: parsed.data.fullName,
+      addressLine1: parsed.data.addressLine1,
+      addressLine2: parsed.data.addressLine2,
+      city: parsed.data.city,
+      state: parsed.data.state,
+      postalCode: parsed.data.postalCode,
+      country: parsed.data.country,
+      phone: parsed.data.phone,
+      isDefault: parsed.data.isDefault,
     });
 
     return NextResponse.json({ id: String(address._id) }, { status: 201 });

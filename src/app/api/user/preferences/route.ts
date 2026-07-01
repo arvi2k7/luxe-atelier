@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import { auth } from "@/auth";
+import { preferencesSchema } from "@/lib/validations";
 
 export async function PUT(req: NextRequest) {
   const session = await auth();
@@ -9,13 +10,17 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const { email, marketing, orderUpdates } = await req.json();
+    const body = await req.json();
+    const parsed = preferencesSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
+    }
     await connectDB();
 
     const update: Record<string, unknown> = {};
-    if (email !== undefined) update.email = email;
-    if (marketing !== undefined) update["emailPreferences.marketing"] = marketing;
-    if (orderUpdates !== undefined) update["emailPreferences.orderUpdates"] = orderUpdates;
+    if (parsed.data.email !== undefined) update.email = parsed.data.email;
+    if (parsed.data.marketing !== undefined) update["emailPreferences.marketing"] = parsed.data.marketing;
+    if (parsed.data.orderUpdates !== undefined) update["emailPreferences.orderUpdates"] = parsed.data.orderUpdates;
 
     await User.findByIdAndUpdate(session.user.id, { $set: update });
     return NextResponse.json({ ok: true });

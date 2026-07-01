@@ -21,4 +21,6 @@ const HeroCategorySchema = new Schema<IHeroCategory>(
   { timestamps: true }
 );
 
+HeroCategorySchema.index({ sortOrder: 1 });
+
 export default models.HeroCategory || model<IHeroCategory>("HeroCategory", HeroCategorySchema);

@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { auth } from "@/auth";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
+import { changePasswordSchema } from "@/lib/validations";
 
 export async function PUT(req: NextRequest) {
   const session = await auth();
@@ -10,22 +11,13 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { currentPassword, newPassword } = await req.json();
-
-  if (!currentPassword || !newPassword) {
-    return NextResponse.json(
-      { error: "Both current and new password are required." },
-      { status: 400 }
-    );
+  const body = await req.json();
+  const parsed = changePasswordSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
   }
 
-  if (newPassword.length < 8) {
-    return NextResponse.json(
-      { error: "New password must be at least 8 characters." },
-      { status: 400 }
-    );
-  }
-
+  const { currentPassword, newPassword } = parsed.data;
   const userId = session.user?.id;
   await connectDB();
 

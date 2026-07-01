@@ -3,17 +3,19 @@ import { auth } from "@/auth";
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Review from "@/models/Review";
+import { reviewSchema } from "@/lib/validations";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const userId = session.user?.id;
-  const { productId, rating, title, body } = await req.json();
-
-  if (!productId || !rating || !title || !body) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  const body = await req.json();
+  const parsed = reviewSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
   }
+  const { productId, rating, title, body: reviewBody } = parsed.data;
 
   await connectDB();
 
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   const review = await Review.create({
     productId, userId, orderNumber: hasOrdered.orderNumber,
-    rating, title, body, status: "pending",
+    rating, title, body: reviewBody, status: "pending",
   });
 
   return NextResponse.json({ ok: true, reviewId: String(review._id) });

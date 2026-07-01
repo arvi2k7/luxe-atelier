@@ -3,6 +3,7 @@ import connectDB from "@/lib/mongodb";
 import ReturnRequest from "@/models/ReturnRequest";
 import Order from "@/models/Order";
 import { auth } from "@/auth";
+import { returnRequestSchema } from "@/lib/validations";
 
 export async function GET() {
   const session = await auth();
@@ -20,7 +21,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const { orderNumber, items, notes } = await req.json();
+    const body = await req.json();
+    const parsed = returnRequestSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
+    }
+    const { orderNumber, items, notes } = parsed.data;
     await connectDB();
 
     const order = await Order.findOne({ orderNumber, userId: session.user.id }).lean();

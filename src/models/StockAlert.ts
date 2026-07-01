@@ -18,5 +18,6 @@ const StockAlertSchema = new Schema<IStockAlert>(
 );
 
 StockAlertSchema.index({ productId: 1, email: 1 }, { unique: true });
+StockAlertSchema.index({ productId: 1, notified: 1 });
 
 export default models.StockAlert || model<IStockAlert>("StockAlert", StockAlertSchema);

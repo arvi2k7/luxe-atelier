@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Coupon from "@/models/Coupon";
+import { couponValidateSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const { code, subtotal } = await request.json();
-    if (!code) {
+    const body = await request.json();
+    const parsed = couponValidateSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json({ error: "Missing coupon code" }, { status: 400 });
+    }
+    const { code, subtotal } = parsed.data;
+    if (subtotal === undefined) {
+      return NextResponse.json({ error: "Subtotal required for discount calculation" }, { status: 400 });
     }
 
     await connectDB();
@@ -37,9 +43,9 @@ export async function POST(request: Request) {
       discount,
       total,
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { error: (err as Error).message },
+      { error: "Failed to validate coupon" },
       { status: 500 }
     );
   }

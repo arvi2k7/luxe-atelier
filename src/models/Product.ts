@@ -82,4 +82,12 @@ const ProductSchema = new Schema<IProduct>(
   { timestamps: true }
 );
 
+ProductSchema.index({ category: 1, createdAt: -1 });
+ProductSchema.index({ category: 1, price: 1 });
+ProductSchema.index({ createdAt: -1 });
+ProductSchema.index({ featured: 1, stock: 1 });
+ProductSchema.index({ stock: 1 });
+ProductSchema.index({ backInStock: 1, stock: 1 });
+ProductSchema.index({ name: "text", description: "text" });
+
 export default models.Product || model<IProduct>("Product", ProductSchema);

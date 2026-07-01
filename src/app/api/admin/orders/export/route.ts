@@ -14,7 +14,7 @@ function escapeCSV(val: unknown): string {
 
 export async function GET() {
   const session = await auth();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (session?.user?.role !== "admin") return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
   await connectDB();
 

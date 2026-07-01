@@ -5,9 +5,9 @@ export async function GET() {
   try {
     await connectDB();
     return NextResponse.json({ status: "ok", db: "connected" });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { status: "error", message: (err as Error).message },
+      { status: "error", message: "Health check failed" },
       { status: 500 }
     );
   }

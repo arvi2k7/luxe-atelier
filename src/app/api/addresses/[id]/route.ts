@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import SavedAddress from "@/models/SavedAddress";
 import { auth } from "@/auth";
+import { addressSchema } from "@/lib/validations";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
@@ -11,6 +12,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params;
   try {
     const body = await req.json();
+    const parsed = addressSchema.partial().safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
+    }
     await connectDB();
 
     if (body.isDefault) {
@@ -19,7 +24,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     const address = await SavedAddress.findOneAndUpdate(
       { _id: id, userId: session.user.id },
-      { $set: body },
+      { $set: parsed.data },
       { new: true },
     );
     if (!address) {

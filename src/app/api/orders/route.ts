@@ -5,18 +5,16 @@ import Product from "@/models/Product";
 import Coupon from "@/models/Coupon";
 import { auth } from "@/auth";
 import { sendOrderConfirmation, sendNewOrderAdmin } from "@/lib/emails";
+import { createOrderSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { items, shipping, subtotal, total, couponCode } = body;
-
-    if (!items?.length || !shipping) {
-      return NextResponse.json(
-        { error: "Missing items or shipping info" },
-        { status: 400 }
-      );
+    const parsed = createOrderSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
     }
+    const { items, shipping, subtotal, total, couponCode } = parsed.data;
 
     await connectDB();
 
@@ -85,9 +83,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ orderNumber: order.orderNumber });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { error: (err as Error).message },
+      { error: "Failed to create order" },
       { status: 500 }
     );
   }

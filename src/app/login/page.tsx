@@ -58,6 +58,12 @@ function LoginForm() {
           className="mt-2 w-full border border-gold bg-gold/10 py-3 text-sm tracking-[0.1em] text-gold-bright hover:bg-gold/20 disabled:opacity-50 transition-colors">
           {submitting ? "Signing in..." : "Sign In"}
         </button>
+
+        <p className="text-right text-xs">
+          <Link href="/forgot-password" className="text-bone-muted hover:text-gold-bright">
+            Forgot password?
+          </Link>
+        </p>
       </form>
 
       <p className="mt-6 text-center text-xs text-bone-muted">
