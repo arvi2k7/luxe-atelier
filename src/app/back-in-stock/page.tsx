@@ -14,7 +14,7 @@ export default async function BackInStockPage() {
     .sort({ updatedAt: -1 }).lean());
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Back in Stock" }]} />
       <h1 className="font-display text-4xl font-semibold tracking-tight text-bone">Back in Stock</h1>
       <p className="mt-2 text-sm text-bone-muted">Recently restocked pieces.</p>

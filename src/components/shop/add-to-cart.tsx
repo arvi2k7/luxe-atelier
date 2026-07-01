@@ -70,9 +70,15 @@ export function AddToCart({
       <button
         disabled={!inStock || !selectedSize}
         onClick={handleAdd}
-        className="mt-10 w-full border border-gold bg-gold/10 py-4 text-sm tracking-[0.1em] text-gold-bright transition-colors hover:bg-gold/20 disabled:cursor-not-allowed disabled:border-bone-muted/30 disabled:text-bone-muted disabled:hover:bg-transparent"
+        className={`mt-10 w-full border py-4 text-sm tracking-[0.1em] transition-all duration-200 ${
+          !inStock || !selectedSize
+            ? "border-bone-muted/20 text-bone-muted/40 cursor-not-allowed"
+            : added
+              ? "border-green-500/50 bg-green-500/10 text-green-400"
+              : "border-gold bg-gold/10 text-gold-bright hover:bg-gold/20"
+        }`}
       >
-        {!inStock ? "Out of Stock" : added ? "Added" : "Add to Cart"}
+        {!inStock ? "Out of Stock" : added ? "Added to bag" : "Add to Cart"}
       </button>
 
       {inStock && stock <= lowStockThreshold && (

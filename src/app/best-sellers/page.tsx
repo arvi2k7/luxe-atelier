@@ -27,7 +27,7 @@ export default async function BestSellersPage() {
     : [];
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Best Sellers" }]} />
       <h1 className="font-display text-4xl font-semibold tracking-tight text-bone">Best Sellers</h1>
       <p className="mt-2 text-sm text-bone-muted">Our most popular pieces.</p>

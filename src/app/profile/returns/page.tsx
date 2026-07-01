@@ -18,7 +18,7 @@ export default async function ReturnsPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-3xl px-6 pb-16 md:px-10">
       <h1 className="font-display text-3xl text-bone mb-8">Returns & Exchanges</h1>
       <ReturnPortal
         orders={JSON.parse(JSON.stringify(orders))}

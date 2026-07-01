@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function OrderConfirmationLoading() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-24 text-center md:px-10">
+    <div className="mx-auto max-w-2xl px-6 pb-24 text-center md:px-10">
       <Skeleton className="mx-auto h-3 w-32 bg-panel" />
       <Skeleton className="mx-auto mt-4 h-10 w-3/4 bg-panel" />
       <Skeleton className="mx-auto mt-4 h-4 w-1/2 bg-panel" />

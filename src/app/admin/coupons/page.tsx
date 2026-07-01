@@ -12,7 +12,7 @@ export default async function AdminCouponsPage() {
   const coupons = await Coupon.find({}).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-12">
+    <div className="mx-auto max-w-4xl px-6 pb-12">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.15em] text-gold">Admin</p>

@@ -16,12 +16,10 @@ export default async function OrderConfirmationPage({
   if (!order) notFound();
 
   const firstName = order.shipping?.fullName?.split(" ")[0] || "there";
-  const pointsEarned = order.pointsRedeemed
-    ? `You earned ${order.pointsRedeemed} loyalty points.`
-    : null;
+  const displayEmail = (order as Record<string, unknown>).email || order.shipping?.email || "your email";
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-24 text-center md:px-10">
+    <div className="mx-auto max-w-2xl px-6 pb-24 text-center md:px-10 animate-fade-up-sm">
       <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4C28F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="20 6 9 17 4 12" />
@@ -29,16 +27,21 @@ export default async function OrderConfirmationPage({
       </div>
 
       <p className="text-xs uppercase tracking-[0.15em] text-gold">Order Confirmed</p>
-      <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-bone">
+      <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-bone text-balance">
         Thank you, {firstName}.
       </h1>
       <p className="mt-4 text-sm text-bone-muted leading-relaxed max-w-md mx-auto">
         Order <span className="text-bone">{order.orderNumber}</span> has been placed.
-        We&apos;ll send a confirmation to <span className="text-bone">{(order as Record<string, unknown>).email || order.shipping?.email || "your email"}</span>.
+        We&apos;ll send a confirmation to <span className="text-bone">{displayEmail}</span>.
       </p>
 
-      {pointsEarned && (
-        <p className="mt-4 text-sm text-gold-bright italic">{pointsEarned}</p>
+      {order.pointsRedeemed && (
+        <p className="mt-4 inline-flex items-center gap-2 rounded border border-gold/20 bg-gold/5 px-4 py-2 text-sm text-gold-bright">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4C28F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          You earned {order.pointsRedeemed} loyalty points
+        </p>
       )}
 
       <div className="mt-10 space-y-4 border border-gold/20 bg-panel p-6 text-left">
@@ -58,8 +61,8 @@ export default async function OrderConfirmationPage({
         </div>
       </div>
 
-      <p className="mt-6 text-xs text-bone-muted">
-        Shipping to {order.shipping?.addressLine1}, {order.shipping?.city}, {order.shipping?.country}
+      <p className="mt-6 text-xs text-bone-muted leading-relaxed">
+        Shipping to {order.shipping?.addressLine1}, {order.shipping?.city}, {order.shipping?.state} {order.shipping?.postalCode}, {order.shipping?.country}
       </p>
 
       <div className="mt-10 flex justify-center gap-4">

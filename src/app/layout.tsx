@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="min-h-screen bg-vitrine font-body text-bone antialiased">
         <Header />
-        <main>{children}</main>
+        <main className="pt-[72px]">{children}</main>
         <Footer />
         <ExitIntentPrompt />
       </body>

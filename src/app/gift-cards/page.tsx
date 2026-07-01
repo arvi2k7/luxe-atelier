@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function GiftCardsPage() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-2xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Gift Cards" }]} />
       <h1 className="font-display text-4xl font-semibold tracking-tight text-bone mt-4">Gift Cards</h1>
       <p className="mt-2 text-sm text-bone-muted">

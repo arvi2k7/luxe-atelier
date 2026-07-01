@@ -15,7 +15,7 @@ export default async function AdminProductsPage() {
   const products = await Product.find({}).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12">
+    <div className="mx-auto max-w-5xl px-6 pb-12">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.15em] text-gold">Admin</p>

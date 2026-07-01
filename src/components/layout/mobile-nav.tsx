@@ -42,7 +42,7 @@ export function MobileNav({ userName }: Props) {
       </button>
 
       {open && (
-        <div className="fixed inset-0 top-[65px] z-40 bg-vitrine flex flex-col px-6 pt-10 pb-16">
+        <div className="fixed inset-0 top-[65px] z-dropdown bg-vitrine flex flex-col px-6 pt-10 pb-16">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href}

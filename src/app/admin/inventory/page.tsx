@@ -13,7 +13,7 @@ export default async function AdminInventoryPage() {
   const products = await Product.find({}).sort({ stock: 1 }).lean();
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-12">
+    <div className="mx-auto max-w-4xl px-6 pb-12">
       <div>
         <p className="text-xs uppercase tracking-[0.15em] text-gold">Admin</p>
         <h1 className="mt-1 font-display text-3xl font-semibold text-bone">Inventory</h1>

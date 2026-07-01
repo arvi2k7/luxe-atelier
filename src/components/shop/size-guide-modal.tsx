@@ -23,7 +23,7 @@ export function SizeGuideModal({ category }: { category: string }) {
         Size guide
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+        <div className="fixed inset-0 z-modal flex items-center justify-center bg-black/70"
           onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="mx-4 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-gold/20 bg-panel p-8">
             <div className="flex justify-between items-start mb-6">

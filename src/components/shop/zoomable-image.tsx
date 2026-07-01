@@ -19,7 +19,7 @@ export function ZoomableImage({ src, alt, priority }: { src: string; alt: string
   return (
     <div
       ref={containerRef}
-      className="relative aspect-[3/4] overflow-hidden bg-panel cursor-crosshair"
+      className="relative z-0 aspect-[3/4] overflow-hidden bg-panel cursor-crosshair"
       onMouseEnter={() => setZoom(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setZoom(false)}
@@ -29,8 +29,7 @@ export function ZoomableImage({ src, alt, priority }: { src: string; alt: string
         sizes="(max-width: 768px) 100vw, 50vw"
         className="object-cover"
         style={{
-          transform: zoom ? "scale(2)" : "scale(1)",
-          transformOrigin: origin,
+          ...(zoom ? { transform: "scale(2)", transformOrigin: origin } : {}),
           transition: zoom ? "none" : "transform 0.1s ease-out",
         }}
       />

@@ -34,7 +34,7 @@ export default async function EditProductPage({
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-12">
+    <div className="mx-auto max-w-2xl px-6 pb-12">
       <Link href="/admin/products"
         className="text-xs text-bone-muted hover:text-gold-bright transition-colors">
         ← Products

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShopWindow } from "@/components/home/shop-window";
+import { ScrollReveal } from "@/components/home/scroll-reveal";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 import HeroCategory from "@/models/HeroCategory";
@@ -33,56 +34,64 @@ export default async function Home() {
 
   return (
     <>
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {windows.map((w, i) => (
-          <ShopWindow key={w.key} label={w.label} sub={w.sub} index={i} href={w.href} image={w.image} />
-        ))}
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-24 md:px-10">
-        <div className="flex items-end justify-between">
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-bone">
-            New Arrivals
-          </h2>
-          <Link href="/shop"
-            className="text-xs tracking-[0.1em] text-bone-muted hover:text-gold-bright transition-colors">
-            View all
-          </Link>
-        </div>
-
-        {featured.length > 0 ? (
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((p) => (
-              <ProductCard key={String(p._id)} product={p} />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-6 text-sm text-bone-muted">
-            No featured products yet —{" "}
-            <Link href="/shop" className="text-gold-bright hover:underline">
-              browse the full catalogue
-            </Link>
-            .
-          </p>
-        )}
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <p className="text-xs uppercase tracking-[0.15em] text-gold">What our customers say</p>
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <div key={i} className="border border-gold/20 bg-panel p-6">
-              <div className="flex gap-0.5 mb-4">
-                {Array.from({ length: t.rating }).map((_, s) => (
-                  <span key={s} className="text-gold text-sm">★</span>
-                ))}
-              </div>
-              <p className="text-sm italic text-bone-muted leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-              <p className="mt-4 text-xs uppercase tracking-[0.12em] text-gold">{t.name} — {t.location}</p>
-            </div>
+      <section className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {windows.map((w, i) => (
+            <ShopWindow key={w.key} label={w.label} sub={w.sub} index={i} href={w.href} image={w.image} />
           ))}
         </div>
       </section>
+
+      <ScrollReveal>
+        <div className="mx-auto max-w-7xl px-6 py-24 md:px-10">
+          <div className="flex items-end justify-between">
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-bone text-balance">
+              New Arrivals
+            </h2>
+            <Link href="/shop"
+              className="text-xs tracking-[0.1em] text-bone-muted hover:text-gold-bright transition-colors flex-shrink-0">
+              View all
+            </Link>
+          </div>
+
+          {featured.length > 0 ? (
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {featured.map((p) => (
+                <ProductCard key={String(p._id)} product={p} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-16 text-center">
+              <p className="text-sm text-bone-muted">
+                The new collection is being prepared.
+              </p>
+              <Link href="/shop"
+                className="mt-4 inline-block border border-gold/30 px-6 py-3 text-xs uppercase tracking-[0.12em] text-gold-bright transition-colors hover:border-gold hover:bg-gold/10">
+                Browse the full catalogue
+              </Link>
+            </div>
+          )}
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <div className="mx-auto max-w-7xl px-6 py-24 md:px-10">
+          <p className="text-xs uppercase tracking-[0.15em] text-gold">What our customers say</p>
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <div key={i} className="border border-gold/20 bg-panel p-8">
+                <div className="flex gap-0.5 mb-5">
+                  {Array.from({ length: t.rating }).map((_, s) => (
+                    <span key={s} className="text-gold text-sm">★</span>
+                  ))}
+                </div>
+                <p className="text-sm text-bone-muted leading-relaxed text-pretty">&ldquo;{t.text}&rdquo;</p>
+                <p className="mt-5 text-xs uppercase tracking-[0.12em] text-gold">{t.name} — {t.location}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ScrollReveal>
     </>
   );
 }

@@ -32,7 +32,7 @@ export function FullscreenGallery({
   const goPrev = useCallback(() => setCurrent((i) => Math.max(0, i - 1)), []);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-black">
+    <div className="fixed inset-0 z-modal flex flex-col bg-black">
       <div className="flex items-center justify-between px-6 py-4">
         <span className="text-sm text-bone-muted">{current + 1} / {images.length}</span>
         <button onClick={onClose} className="text-2xl text-bone-muted hover:text-bone leading-none">&times;</button>

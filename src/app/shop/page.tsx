@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/shop/product-card";
 import { Filters } from "@/components/shop/filters";
 import { Pagination } from "@/components/shop/pagination";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { serialize } from "@/lib/utils";
 
 const PAGE_SIZE = 12;
@@ -68,28 +69,37 @@ export default async function ShopPage({
   const hasNext = page < totalPages;
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Shop" }]} />
-      <h1 className="font-display text-4xl font-semibold tracking-tight text-bone">
-        Shop
+      <h1 className="font-display text-4xl font-semibold tracking-tight text-bone text-balance">
+        {params.category ? `${params.category}` : "All Pieces"}
       </h1>
       <p className="mt-2 text-sm text-bone-muted">
         {total} {total === 1 ? "piece" : "pieces"}
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-[200px_1fr]">
+      <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-[220px_1fr]">
         <Filters />
         <div>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {serializedProducts.map((p) => (
-              <ProductCard key={String(p._id)} product={p} />
-            ))}
-            {products.length === 0 && (
-              <p className="col-span-full text-sm text-bone-muted">
+          {serializedProducts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {serializedProducts.map((p, i) => (
+                <div key={String(p._id)} className="animate-fade-up motion-reduce:animate-none" style={{ animationDelay: `${i * 60}ms`, animationFillMode: "backwards" }}>
+                  <ProductCard product={p} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-16 text-center">
+              <p className="text-sm text-bone-muted">
                 No pieces match those filters.
               </p>
-            )}
-          </div>
+              <a href="/shop"
+                className="mt-4 inline-block border border-gold/30 px-6 py-3 text-xs uppercase tracking-[0.12em] text-gold-bright transition-colors hover:border-gold hover:bg-gold/10">
+                Clear all filters
+              </a>
+            </div>
+          )}
           {totalPages > 1 && (
             <Pagination page={page} totalPages={totalPages} hasPrev={hasPrev} hasNext={hasNext} searchParams={params} />
           )}

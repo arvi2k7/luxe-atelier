@@ -45,7 +45,7 @@ export default async function AdminHomePage() {
   ];
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-6 pb-16">
       <p className="text-xs uppercase tracking-[0.15em] text-gold">Atelier Admin</p>
       <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-bone">
         Welcome, {session.user?.name}

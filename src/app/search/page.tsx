@@ -38,7 +38,7 @@ export default async function SearchPage({
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <p className="text-xs uppercase tracking-[0.15em] text-gold">Search</p>
       <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-bone">
         {query ? `Results for "${query}"` : "Search the catalogue"}

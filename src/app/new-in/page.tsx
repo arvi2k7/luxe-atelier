@@ -20,7 +20,7 @@ export default async function NewInPage() {
     .sort({ createdAt: -1 }).limit(40).lean());
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "New In" }]} />
       <h1 className="font-display text-4xl font-semibold tracking-tight text-bone">New In</h1>
       <p className="mt-2 text-sm text-bone-muted">Added in the last 30 days.</p>

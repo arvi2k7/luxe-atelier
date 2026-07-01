@@ -1,6 +1,6 @@
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-24 md:px-10">
+    <div className="mx-auto max-w-3xl px-6 pb-24 md:px-10">
       <p className="text-xs uppercase tracking-[0.15em] text-gold">Get in touch</p>
       <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-bone">
         Contact

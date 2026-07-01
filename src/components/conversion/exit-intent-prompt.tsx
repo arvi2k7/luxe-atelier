@@ -61,7 +61,7 @@ export function ExitIntentPrompt({ discountCode = "WELCOME10", discountAmount = 
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-modal flex items-center justify-center bg-black/70 backdrop-blur-sm">
       <div className="relative mx-4 w-full max-w-md border border-gold/30 bg-panel p-8">
         <button
           onClick={() => setShow(false)}

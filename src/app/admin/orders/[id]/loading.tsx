@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminOrderDetailLoading() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12">
+    <div className="mx-auto max-w-3xl px-6 pb-12">
       <Skeleton className="h-3 w-16 bg-panel" />
 
       <div className="mt-6 flex items-start justify-between gap-4">

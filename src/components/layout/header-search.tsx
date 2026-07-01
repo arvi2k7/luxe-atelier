@@ -96,7 +96,7 @@ export function HeaderSearch() {
         </button>
       </form>
       {suggestions.length > 0 && (
-        <div ref={dropdownRef} className="absolute top-full right-0 mt-1 z-50 min-w-[280px] bg-panel border border-gold/20">
+        <div ref={dropdownRef} className="absolute top-full right-0 mt-1 z-dropdown min-w-[280px] bg-panel border border-gold/20">
           {suggestions.map((s, i) => (
             <Link key={s._id} href={`/shop/${s.slug}`}
               className={`flex items-center gap-3 px-4 py-3 transition-colors ${i === selectedIdx ? "bg-vitrine/50" : "hover:bg-vitrine/30"}`}

@@ -35,7 +35,7 @@ export function ProductCard({ product }: { product: ProductCardProduct }) {
 
   return (
     <Link href={`/shop/${product.slug}`} className="group block">
-      <div className="relative aspect-[3/4] overflow-hidden bg-panel">
+      <div className="relative z-0 aspect-[3/4] overflow-hidden bg-panel">
         {image ? (
           <div className="relative w-full h-full">
             <Image src={image} alt={product.name} fill
@@ -50,18 +50,19 @@ export function ProductCard({ product }: { product: ProductCardProduct }) {
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-panel via-vitrine to-black transition-transform duration-500 group-hover:scale-105" />
         )}
-        <div className="absolute left-3 top-3 flex flex-col gap-1">
-          {onSale && <span className="bg-wine px-2 py-0.5 text-xs tracking-wide text-bone">Sale</span>}
-          {product.exclusive && <span className="bg-panel border border-gold/60 px-2 py-0.5 text-xs tracking-wide text-gold">Exclusive</span>}
-          {product.stock <= 3 && product.stock > 0 && <span className="bg-wine/40 px-2 py-0.5 text-xs text-red-400 border border-wine/40">Limited</span>}
+        <div className="absolute left-3 top-3">
+          {(() => {
+            if (onSale) return <span className="bg-wine px-2 py-0.5 text-xs tracking-wide text-bone">Sale</span>;
+            if (product.exclusive) return <span className="bg-panel border border-gold/60 px-2 py-0.5 text-xs tracking-wide text-gold">Exclusive</span>;
+            if (product.stock <= 3 && product.stock > 0) return <span className="bg-wine/40 px-2 py-0.5 text-xs text-red-400 border border-wine/40">Limited</span>;
+            if (!onSale && lowStock) return <span className="bg-panel border border-gold/30 px-2 py-0.5 text-xs tracking-wide text-gold-bright">Low stock</span>;
+            return null;
+          })()}
         </div>
-        {!onSale && lowStock && (
-          <span className="absolute right-3 top-3 text-xs tracking-wide text-gold-bright">Low stock</span>
-        )}
         <QuickAddButton product={product as unknown as QuickAddProduct} />
       </div>
       <div className="mt-3">
-        <p className="font-display text-lg text-bone">{product.name}</p>
+        <p className="font-display text-lg text-bone text-balance">{product.name}</p>
         <p className="text-xs uppercase tracking-wide text-bone-muted">{product.category}</p>
         <div className="mt-1 flex items-center gap-2 font-body text-sm font-medium">
           <span className="text-bone">${product.price.toLocaleString()}</span>

@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminDashboardLoading() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
+    <div className="mx-auto max-w-3xl px-6 pb-16">
       <Skeleton className="h-3 w-28 bg-panel" />
       <Skeleton className="mt-2 h-8 w-64 bg-panel" />
       <Skeleton className="mt-1 h-4 w-48 bg-panel" />

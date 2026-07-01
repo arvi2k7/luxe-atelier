@@ -5,7 +5,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-24 md:px-10">
+    <div className="mx-auto max-w-3xl px-6 pb-24 md:px-10">
       <p className="text-xs uppercase tracking-[0.15em] text-gold">The atelier</p>
       <h1 className="mt-3 font-display text-5xl font-semibold leading-tight tracking-tight text-bone">
         Seen best after dark.

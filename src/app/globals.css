@@ -47,6 +47,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -140,6 +142,13 @@
 
   --font-display: "Cormorant", serif;
   --font-body: "Inter", sans-serif;
+
+  --z-dropdown: 1000;
+  --z-sticky: 999;
+  --z-modal-backdrop: 1100;
+  --z-modal: 1200;
+  --z-toast: 1300;
+  --z-tooltip: 1400;
 }
 
 body {
@@ -159,7 +168,40 @@ body {
   to { transform: translateX(0); }
 }
 
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-up-sm {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @theme {
   --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-slide-in-right: slide-in-right 0.3s ease-out;
+  --animate-slide-in-right: slide-in-right 0.3s var(--ease-out-expo);
+  --animate-fade-up: fade-up 0.6s var(--ease-out-quint);
+  --animate-fade-up-sm: fade-up-sm 0.4s var(--ease-out-quint);
+}
+
+@custom-variant in-view (&.in-view);
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

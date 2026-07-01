@@ -11,6 +11,7 @@ import { WishlistButton } from "@/components/shop/wishlist-button";
 import { SizeGuideModal } from "@/components/shop/size-guide-modal";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { serialize } from "@/lib/utils";
+import { ScrollReveal } from "@/components/home/scroll-reveal";
 import { RecentlyViewedTracker } from "@/components/shop/recently-viewed-tracker";
 import { RecentlyViewed } from "@/components/shop/recently-viewed";
 import { ReviewForm } from "@/components/shop/review-form";
@@ -58,7 +59,7 @@ export default async function ProductDetailPage({ params, searchParams }: { para
     : null;
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-6xl px-6 pb-16 md:px-10">
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
         { label: "Shop", href: "/shop" },
@@ -71,7 +72,7 @@ export default async function ProductDetailPage({ params, searchParams }: { para
 
         <div>
           <p className="text-xs uppercase tracking-[0.15em] text-gold">{product.category}</p>
-          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-bone">{product.name}</h1>
+          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-bone text-balance">{product.name}</h1>
           <div className="mt-4 flex items-center gap-3 font-body text-lg font-medium">
             <span className="text-bone">${product.price.toLocaleString()}</span>
             {onSale && <span className="text-bone-muted line-through">${product.compareAtPrice!.toLocaleString()}</span>}
@@ -89,9 +90,9 @@ export default async function ProductDetailPage({ params, searchParams }: { para
           <p className="mt-6 max-w-md text-sm leading-relaxed text-bone-muted">{product.description}</p>
 
           {product.fitNotes && (
-            <div className="mt-4 border-l-2 border-gold/30 pl-4">
+            <div className="mt-4 bg-panel border border-gold/20 p-4">
               <p className="text-xs uppercase tracking-[0.12em] text-gold mb-1">Fit</p>
-              <p className="text-sm text-bone-muted">{product.fitNotes}</p>
+              <p className="text-sm text-bone-muted leading-relaxed">{product.fitNotes}</p>
             </div>
           )}
 
@@ -106,7 +107,7 @@ export default async function ProductDetailPage({ params, searchParams }: { para
             <div className="mt-6">
               <p className="text-xs uppercase tracking-[0.12em] text-gold mb-2">Colour</p>
               <div className="flex gap-3">
-                <span className="w-8 h-8 rounded-full border-2 border-gold-bright"
+                <span className="w-8 h-8 rounded-full ring-2 ring-gold-bright ring-offset-2 ring-offset-vitrine"
                   style={{ backgroundColor: product.colorVariants[0]?.hex ?? "#0E1410" }} title="Current" />
                 {product.colorVariants.map((v: { slug: string; hex: string; color: string }) => (
                   <a key={v.slug} href={`/shop/${v.slug}`}>
@@ -135,9 +136,9 @@ export default async function ProductDetailPage({ params, searchParams }: { para
           {product.pressQuotes != null && product.pressQuotes.length > 0 && (
             <div className="mt-8 space-y-3">
               {product.pressQuotes.map((q: { quote: string; url?: string; publication: string }, i: number) => (
-                <div key={i} className="border-l-2 border-gold/30 pl-4">
-                  <p className="text-sm italic text-bone-muted">&ldquo;{q.quote}&rdquo;</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.12em] text-gold">
+                <div key={i} className="bg-panel border border-gold/20 p-4">
+                  <p className="text-sm italic text-bone-muted leading-relaxed">&ldquo;{q.quote}&rdquo;</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.12em] text-gold">
                     {q.url ? <a href={q.url} target="_blank" rel="noopener" className="hover:text-gold-bright">{q.publication}</a> : q.publication}
                   </p>
                 </div>
@@ -148,41 +149,47 @@ export default async function ProductDetailPage({ params, searchParams }: { para
       </div>
 
       {bundleProducts.length > 0 && (
-        <div className="mt-16 border-t border-gold/20 pt-12">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-bone">Complete the look</h2>
-          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {bundleProducts.map((p) => <ProductCard key={String(p._id)} product={p} />)}
+        <ScrollReveal>
+          <div className="mt-16 border-t border-gold/20 pt-12">
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-bone text-balance">Complete the look</h2>
+            <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {bundleProducts.map((p) => <ProductCard key={String(p._id)} product={p} />)}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       )}
 
       {related.length >= 2 && (
-        <div className="mt-16 border-t border-gold/20 pt-12">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-bone">You may also like</h2>
-          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((p) => <ProductCard key={String(p._id)} product={p} />)}
+        <ScrollReveal>
+          <div className="mt-16 border-t border-gold/20 pt-12">
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-bone text-balance">You may also like</h2>
+            <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {related.map((p) => <ProductCard key={String(p._id)} product={p} />)}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       )}
 
       {reviews.length > 0 && (
-        <div className="mt-16 border-t border-gold/20 pt-12">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-bone">Reviews</h2>
-          <div className="mt-8 space-y-6">
-            {reviews.map((r: { _id: string; rating: number; title: string; body: string; createdAt: Date }) => (
-              <div key={String(r._id)} className="border-b border-gold/10 pb-6">
-                <div className="flex gap-0.5 mb-2">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <span key={i} className={i < r.rating ? "text-gold text-sm" : "text-gold/20 text-sm"}>★</span>
-                  ))}
+        <ScrollReveal>
+          <div className="mt-16 border-t border-gold/20 pt-12">
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-bone text-balance">Reviews</h2>
+            <div className="mt-8 space-y-6">
+              {reviews.map((r: { _id: string; rating: number; title: string; body: string; createdAt: Date }) => (
+                <div key={String(r._id)} className="border-b border-gold/10 pb-6">
+                  <div className="flex gap-0.5 mb-2">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span key={i} className={i < r.rating ? "text-gold text-sm" : "text-gold/20 text-sm"}>★</span>
+                    ))}
+                  </div>
+                  <p className="font-display text-base text-bone">{r.title}</p>
+                  <p className="mt-1 text-xs text-bone-muted">{new Date(r.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</p>
+                  <p className="mt-2 text-sm text-bone-muted leading-relaxed">{r.body}</p>
                 </div>
-                <p className="font-display text-base text-bone">{r.title}</p>
-                <p className="mt-1 text-xs text-bone-muted">{new Date(r.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</p>
-                <p className="mt-2 text-sm text-bone-muted leading-relaxed">{r.body}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       )}
 
       {sp.review && <ReviewForm productId={String(product._id)} />}

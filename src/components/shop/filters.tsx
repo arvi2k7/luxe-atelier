@@ -37,8 +37,19 @@ export function Filters() {
   const activeMin = searchParams.get("minPrice");
   const activeSort = searchParams.get("sort");
 
+  const hasActiveFilters = !!(activeCategory || activeSize || activeMin);
+
   return (
     <aside className="space-y-8">
+      {hasActiveFilters && (
+        <button
+          onClick={() => router.push(pathname)}
+          className="block w-full border border-gold/30 px-3 py-2 text-xs tracking-[0.1em] text-gold-bright transition-colors hover:bg-gold/10 text-center"
+        >
+          Clear all filters
+        </button>
+      )}
+
       <div>
         <p className="text-xs uppercase tracking-[0.15em] text-gold">Sort</p>
         <ul className="mt-3 space-y-2">
@@ -126,15 +137,6 @@ export function Filters() {
           ))}
         </ul>
       </div>
-
-      {(activeCategory || activeSize || activeMin) && (
-        <button
-          onClick={() => router.push(pathname)}
-          className="text-xs tracking-wide text-bone-muted underline hover:text-bone"
-        >
-          Clear filters
-        </button>
-      )}
     </aside>
   );
 }

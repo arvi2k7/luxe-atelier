@@ -40,7 +40,7 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16 md:px-10 space-y-12">
+    <div className="mx-auto max-w-4xl px-6 pb-16 md:px-10 space-y-12">
       <h1 className="font-display text-3xl text-bone">My Profile</h1>
 
       <section>

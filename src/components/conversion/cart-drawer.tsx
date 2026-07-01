@@ -57,6 +57,7 @@ export function CartDrawer() {
         onClick={() => setOpen(true)}
         className="relative text-bone-muted hover:text-bone transition-colors"
         aria-label={`Cart with ${totalItems} items`}
+        aria-expanded={open}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
@@ -70,7 +71,7 @@ export function CartDrawer() {
       </button>
 
       {open && typeof document !== "undefined" && createPortal(
-        <div className="fixed inset-0 z-[90]">
+        <div className="fixed inset-0 z-modal">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
             onClick={() => setOpen(false)}
@@ -91,11 +92,16 @@ export function CartDrawer() {
 
             <div className="flex-1 overflow-y-auto px-6 py-4">
               {items.length === 0 ? (
-                <div className="mt-16 text-center">
-                  <p className="text-sm text-bone-muted">Your cart is empty.</p>
+                <div className="mt-24 text-center">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#A39C8C" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto">
+                    <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                  </svg>
+                  <p className="mt-4 font-display text-lg text-bone">Your cart is empty</p>
+                  <p className="mt-1 text-xs text-bone-muted">Add something beautiful to get started.</p>
                   <button
                     onClick={() => setOpen(false)}
-                    className="mt-4 inline-block border border-gold/30 px-6 py-3 text-xs uppercase tracking-[0.12em] text-gold-bright hover:bg-gold/10 transition-colors"
+                    className="mt-6 border border-gold/30 px-6 py-3 text-xs uppercase tracking-[0.12em] text-gold-bright hover:bg-gold/10 transition-colors"
                   >
                     Continue Browsing
                   </button>
@@ -107,7 +113,9 @@ export function CartDrawer() {
                       <div className="relative h-20 w-16 flex-shrink-0 overflow-hidden bg-vitrine">
                         {item.image ? (
                           <Image src={item.image} alt={item.name} fill className="object-cover" />
-                        ) : null}
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-bone-muted/30 text-xs">—</div>
+                        )}
                       </div>
                       <div className="flex flex-1 flex-col justify-between text-sm">
                         <div>
@@ -176,6 +184,7 @@ export function CartDrawer() {
                 </Link>
 
                 <button
+                  type="button"
                   onClick={() => { clearCart(); setOpen(false); }}
                   className="block w-full text-center text-xs text-bone-muted hover:text-bone transition-colors"
                 >

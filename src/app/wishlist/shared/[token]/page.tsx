@@ -22,7 +22,7 @@ export default async function SharedWishlistPage({ params }: { params: Promise<{
   const products: Array<IProduct & { _id: string }> = serialize(await Product.find({ _id: { $in: productIds } }).lean());
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-7xl px-6 pb-16 md:px-10">
       <h1 className="font-display text-3xl text-bone">Shared Wishlist</h1>
       <p className="mt-2 text-sm text-bone-muted">Curated pieces shared with you.</p>
 

@@ -31,7 +31,7 @@ export default async function CustomerOrderDetailPage({
   if (String(order.userId) !== userId) notFound();
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-3xl px-6 pb-16 md:px-10">
       <Link href="/profile"
         className="text-xs text-bone-muted hover:text-gold-bright transition-colors">
         ← Back to your orders

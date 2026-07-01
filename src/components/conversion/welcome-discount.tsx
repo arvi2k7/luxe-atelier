@@ -9,9 +9,10 @@ export function WelcomeDiscount() {
   if (subtotal === 0) return null;
 
   return (
-    <div className="border border-gold/20 bg-gold/5 px-6 py-4 text-center">
-      <p className="text-xs uppercase tracking-[0.12em] text-gold-bright">
-        First order? Use <span className="font-mono">WELCOME10</span> for 10% off
+    <div className="border border-gold/20 bg-gold/5 px-5 py-4">
+      <p className="text-xs text-bone-muted">First order?</p>
+      <p className="mt-0.5 text-sm text-gold-bright">
+        Use <span className="font-mono">WELCOME10</span> for 10% off
       </p>
     </div>
   );

@@ -15,7 +15,7 @@ export default async function ProfileOrdersPage() {
   const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16 md:px-10">
+    <div className="mx-auto max-w-4xl px-6 pb-16 md:px-10">
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-display text-3xl text-bone">My Orders</h1>
         <Link href="/profile" className="text-xs text-bone-muted hover:text-gold-bright transition-colors">Back to Profile</Link>
